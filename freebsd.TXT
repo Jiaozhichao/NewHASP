@@ -1,0 +1,429 @@
+===github password===
+Jiaozhichao  cangqi123
+
+===System command=======================
+man [command]     #Command introduction                    
+ls                            #list directory contents.                      
+cd /root/                 #back to root directory
+cd ~                        # "~" same as  "/root"
+cd !$                       #把上个命令的参数作为cd参数使用
+shutdown -r now    #reboot now
+shutdown -p now   #shutdown and power off
+rm -f -r                   #delete directory
+mkdir -p                 #create new directory
+
+===Internet setting===
+ee /etc/rc.conf  中加入             # wifi
+wlans_urtwn0="wlan0"            # "wlan0" is name of wireless network interface card
+ifconfig_wlan0="WPA DHCP"  #Dynamic Host Configuration Protocol 
+ifconfig_re0="DHCP"      #"re0" is name of network interface card
+cat /etc/resolv.conf                 #固定你的 resolv.conf
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+/etc/netstart                           #restart internet
+
+===system pkg===
+adduser 
+Login group is jru. Invite jru into other groups? : wheel     # ?
+Shell (sh csh tcsh zsh nologin) [sh]: csh                               # ?
+pkg install sudo                                         #install sudo by root
+visudo  + username ALL=(ALL) ALL                          #install sudo by root
+pkg install xorg                                          #install xorg
+pkg install blackbox 
+echo "exec blackbox" > ~/.xinitrc
+startx                                                    #start xorg
+
+===file manager pkg===
+pkg install fd-3.01j  #fd
+pkg install ranger    #ranger
+
+===USB memoary===
+mkdir /mnt/usb      #name of usb
+geom label status   #see status of disk
+gpart show
+sudo mount -t msdosfs /dev/da0p2 /mnt/usb  #da0p2 :name of usb device
+sudo umount /mnt/usb                       #unmount
+
+===system message===
+pkg install screenFetch #  read system message
+pkg install neoFetch     #  read system message
+pkg install htop            #  read system stat
+
+===Ports Collection===
+portsnap fetch      #download port
+portsnap extract   #解压
+portsnap update   #update
+
+===tool pkg===
+pkg install r              #R language
+pkg install rstudio       #rstudio
+pkg install texstudio   # LaTeX
+pkg install git              #git
+pkg install okular       #pdf reader for KDE
+pkg install rm-leaf     #pkg-rmleaf
+pkg install feh           #wallpaper manager
+pkg install okular pcmanfm
+# feh --bg-fill ~/Pictures/wallpapers/mybackground.jpg
+
+===multi-monitor===
+xrandr 
+xrandr --output DVI-0 --right-of VGA-0
+
+
+package search  #安装package management
+pkg install ruby26-gems-3.0.6 #rubygems gem工具
+pkg install wget  #是一个在网络上进行下载的简单而强大的自由软件
+
+
+===install Chinese & Japanese font===【sudo】
+pkg install urwfonts      
+pkg install wqy-fonts     #  文泉驿Chinese font
+use xtem ：ee  /etc/X11/xorg.conf
+Section "Files"
+FontPath   "/usr/local/share/fonts/urwfonts"
+FontPath “/usr/local/share/fonts/wqy”
+EndSection
+
+
+安装sddm登录管理器
+       #pkg install sddm
+       #ee /etc/ttys
+       修改ttyv8:
+       ttyv8 "/usr/local/bin/sddm -nodaemon" xterm on secure 
+       如此即可实现kde-plasma5的开机启动！
+
+
+
+
+ifconfig_em0="DHCP" #配置网卡0(NAT)
+ifconfig_em1="DHCP" #配置网卡1(host only)
+sshd_enable="yes" #启用ssh服务
+可能需要重启，虚拟机的网络设定
+
+
+
+pkg install gdm #安装
+pkg install gnome3 #安装Gnome3桌面
+
+ee /etc/rc.conf      # xorg开机启动
+dbus_enable="YES"
+hald_enable="YES"
+polkit_enable="YES"
+
+
+#gnome开机启动
+gdm_enable="YES"
+gnome_enable="YES"
+#gdm偶尔会不显示登录窗口，解决办法为：
+#ee /etc/fstab 加入：
+proc /proc procfs rw 0 0   [开启进程文件系统后gdm就能一直显示登录窗口了，并且还会在主菜单里增加“关机”选项]
+
+===FreeBSD开启SSH远程登录===
+1、安装时选择上SSH，或者源码安装SSH
+2、使用root登陆系统
+3、ee /etc/inetd.conf    #去掉ssh前的#，按ctrl+c，再输入exit保存退出
+4、ee /etc/rc.conf         #添加一行sshd_enable="YES"
+5、ee /etc/ssh/sshd_config
+#PermitRootLogin no改为PermitRootLogin yes                         #允许root登陆
+#PasswordAuthentication no改为PasswordAuthenticationyes   #使用系统PAM认证
+#PermitEmptyPasswords no改为PermitEmptyPasswords no      #不允许空密码
+ee /etc/ssh/sshd_config   #修改端口号
+#port=22  #改为 Port=number（你想修改的数字）保存退出
+6、ee   /etc/rc.d/sshd start    #启动SSHD服务，
+7、netstat -an   #查看服务是否启动，如果看到22端口有监听，恭喜！！！
+
+
+pkg install dwm #  
+pkg install pkg  #可能会编译错误的时候用 缺少ft2build.h
+pkg install ncurses  #可能会编译错误的时候用 缺少tic
+ee ~/.xinitrc   +  壁纸程序  +  exec dwm 
+快捷键
+pacch -p < file.name
+Shift + Mod1 + K. 打开窗口
+Shift + Mod1 + C. 关闭窗口
+Mod1 + 数字  切换workspace·
+Ctrl  +Mod1 + 数字  再显示一个workspace
+Mod1 + J       前一个选项框
+Mod1 + K       后一个选项框
+Mod1 + H       分界线前移
+Mod1 + L      分界线后移
+
+ee ~/.Xresources   #可以设置xorg的透明度
+xrdb -merge  ~/.Xresources  #执行文件
+
+pciom
+cd /usr/ports/x11/nvidia-driver   && make install      #nvidia driver安装
+svn co https://svn.freebsd.org/base/releng/10.3 /usr/src/   #问题解决 用下面的代码
+ #nvidia-driver-346.96 requires kernel source files in /usr/src.
+
+
+===TouchPAD===
+#To enable psm(4) Synaptics support, add the following line to /boot/loader.conf
+hw.psm.synaptics_support="1"
+/etc/rc.conf     moused_enable="YES"
+/etc/X11/xorg.conf
+Section "InputDevice"
+    Identifier      "Mouse0"
+    Driver          "mouse"
+    Option          "Protocol"      "auto"
+    Option          "Device"        "/dev/sysmouse"
+    Option          "ZAxisMapping"  "4 5 6 7"
+EndSection
+#Horizontal scrolling is disabled by default. To enable it, add the following to /etc/sysctl.conf
+hw.psm.synaptics.vscroll_hor_area=1300
+
+
+
+unix のかんたんなコマンド解説を送ります。徐々に慣れればと。
+
+#===================================
+# July 23, 2020 K.E.
+# some commands of UNIX
+#----------------------
+
+◆ unix (FreeBSD, Linux, ...) の console 画面でよく使う commands
+
+man, ls, cp, mv, less, more, pwd, cd, mkdir, rm, chown, chmod,
+cal, date, time, clear, [enter]
+
+
+1) ls
+list directory contents.
+directry にある file、directry、link などの表示
+
+ただし、このままだと表示が簡易すぎるので、一般的には引数をつけて
+
+% ls -lAF
+
+などとする。引数をつけるのも面倒なので、alias 機能で、引数付きの command
+にするのが一般。alias 機能の実現は、使用する shell によって、定義ファイル
+が異なる。
+
+FreeBSD の default shell は csh。その定義ファイルは .cshrc で、先の ls
+の alias であれば
+
+alias ll        ls -lAF
+
+としておけば、あとは、ls の代わりに ll とすればよい。
+
+2) cp
+file や directry などの複写(コピー)。Win系の複写は、元ファイルなどの属性
+(作成日付や許可属性)もいっしょに複写するが、UNIX系のは属性を引き継がない。
+なので、日付属性などを維持したいとき(Win系のコピーと同じ状態)は
+
+% cp -p [元] [複写]
+
+とする。
+
+3) mv
+move の略なので移動になるが、実態は rename に近い。
+
+% mv [元] [新しい名前]
+
+4) less または more
+text file (ASCII code) の内容を console に表示。
+いまの FreeBSD では、more は less に置き代えられている。less は進化版。
+ls などで表示が console 1画面内に収まらないとき、more だと一瞬で表示が流
+れてまう。less だと、ひとつの画面ごとに停止し、space key 押下すると、次の
+表示に進む。途中で止めたいときは、q または ctrl+c 押下。
+
+% less [sample_file]
+
+5) pwd
+return working directory name. 自分が居る場所の表示
+
+6) cd
+change directry. 居場所の変更。
+UNIX における HDD、SSD の領域は、以下のよう。
+
+  bin              <DIR>  システムの基本 command
+  boot            <DIR>  起動関連 command
+  compat          <DIR>  他システム用の command
+  dev              <DIR>  device との接続
+  etc              <DIR>  システムの基本設定
+  home            <DIR>  利用者が使える領域        <- (A)
+  lib              <DIR>  システムのlibrary
+  libexec          <DIR>  同上(実行属性があるもの)
+  net              <DIR>  ネット環境用のシステム command
+  root            <DIR>  root が使用する領域
+  sbin            <DIR>  システムの基本 command
+  tmp              <DIR>  システムの一時保存領域
+  usr              <DIR>  利用者がインストールした commands
+  var              <DIR>  システムの log関連領域
+
+このうち、利用者が自由に使えるのは、(A) の配下のみ。通常は
+
+/home/user_name
+
+が割り当てられ、その配下のみ、自由に使えるので、使いやすいように directry
+を作成して、各 directry に作業の意味を割り当てることが多い。永村の場合は
+
+/home/emura/配下
+
+  Downloads    <DIR>    DLする際の一時的な置き場所
+  bin          <DIR>    自分でつくった commands
+  i7          <DIR> --- 00crag                  <DIR> ファーナム先生関連
+                        00e2ko                  <DIR> 自宅関連
+                        00misc                  <DIR> その他
+                        00wk                    <DIR> 一時的な置き場所
+                        00yuan                  <DIR> 袁先生関連
+                        2020                    <DIR> 2020年の仕事関連
+                        22.misc                  <DIR> 一時的な置き場所
+                        Asahi                    <DIR> 新聞記事など
+                        Audio                    <DIR> 音楽関連
+                        PT.city                  <DIR> 過去の仕事関連
+                        School                  <DIR> 教務関連
+                        Soc                      <DIR> 学会関連
+                        amedas                  <DIR> AMeDAS関連
+                        archiv                  <DIR> 学術関連
+                        archiv.pcs              <DIR> PC機材関連
+                        email                    <DIR> メール
+                        pool                    <DIR> その他保存すべきもの
+  ref          <DIR>    Tex や特殊なfont などの置き場所
+  tmp          <DIR>    一時的な置き場所
+  usage        <DIR>    自分で調べた FreeBSD の使い方や command などの仕様
+
+こんな具合になっている。
+
+自分が console で、どこに居るのか(console に表示されている場所)を pwd で
+確認したあと、行きたい場所に行くときに使う command が cd になる。
+
+% cd [行きたい directry]
+
+7) mkdir
+make directry. directry の作成
+
+8) rm
+remove. file、directry の削除
+
+% rm [file]
+
+% rm -rf [directry]
+
+9) chown
+change file owner and group. 所有属性の変更
+
+UNIX では、ファイルは、作成者がだれか、それはどのグループか、がわかるよう
+になっている。たとえば
+
+% ll s.f95
+-rw-r--r--  1 emura  adm  267 Jul 16 17:34 s.f95
+
+所有者：emura
+グループ：adm
+作成日：July 16, 2020
+
+user の emura の基本属性は、adm グループだが、ほかにも複数のグループに属
+しているので、ファイルによっては
+
+% ll ./Download
+-rw-r--r--  1 emura  wheel    5196 Jul  7 16:25 hf
+
+となって、wheel というグループのファイルも持っている。これを、基本の adm
+にしたければ
+
+% group emura:adm ./Download/hf
+
+とすると
+
+% ll ./Download
+-rw-r--r--  1 emura  adm    5196 Jul  7 16:25 hf
+
+となる。
+
+システム側のファイルの大半は、root(super user)が所有しているので、システ
+ム commands は、たいてい、root属性がついている。rootの基本グループ名が、
+wheel である。
+
+% ll /usr/local/bin/firefox
+lrwxr-xr-x  1 root  wheel  30 Jul 10 19:57 /usr/local/bin/firefox@ -> /usr/local/lib/firefox/firefox
+
+10) chmod
+change file modes. ファイル属性の変更
+
+ls でファイル、ディレクトリ、リンクなどを表示させたとき、左端に表示される
+
+% ll s.f95
+-rw-r--r--  1 emura  adm  267 Jul 16 17:34 s.f95
+~~~~~~~~~~
+この表示が mode と呼ばれる属性で、ファイルであれば、読み書き、ディレクトリ
+であれば、そこに入れるか否かを表わし、実態のあるものか否かも表示できる。
+# 実態がなくとも、link を張って、見かけ上、実態とは異なる名前のファイルを
+# 作成することもできる。
+
+詳細は、ググって調べること。
+
+11) cal
+displays a calendar and the date of Easter. カレンダの表示
+
+% cal
+    July 2020       
+Su Mo Tu We Th Fr Sa 
+          1  2  3  4 
+5  6  7  8  9 10 11 
+12 13 14 15 16 17 18 
+19 20 21 22 23 24 25 
+26 27 28 29 30 31   
+
+12) date, time
+% date
+Thu Jul 23 11:32:44 JST 2020
+% time
+0.508u 0.580s 1:37:02.19 0.0%  923+228k 3+0io 1pf+0w
+
+13) clear
+% clear
+(画面にある文字を消してスッキリ)
+
+14) [enter]
+(なにもしない)
+
+> > % pkg search fd-3.01j
+> > fd-3.01j                      CUI-based file and directory management tool
+> >
+> > と出てくるので、スーパ・ユーザになって
+> >
+> > # pkg install fd-3.01j
+> >
+> > とすれば、インストールできる。
+> >
+> > 通常は、sudo をインストールしておき、一般ユーザで
+> >
+> > % sudo  pkg install fd-3.01j
+> >
+> > とする。が、いま、まだ sudo 自体をインストールしてないから、
+> > スーパ・ユーザになってやるしかない。
+> >
+> > FD の制御は、自分のディレクトリ(unixでは、フォルダとは呼ばない。
+> > 通常は、/home/????/配下になる。????はID name)に制御ファイルを
+> > 置いておくのが一般。
+> >
+> > 制御系ファイルの多くは、前頭がドットで始まる。
+> >
+> > .fd2rc
+> >
+> > これもつけておく。
+> >
+> > ３）archiver
+> > この前、焦さんが送ってきた圧縮ファイルは、.rar だった。これ、あまり
+> > 一般的でない（中国・ロシア系）。世界では、.zip が一般。ただし、Win
+> > 系のはなし。
+> >
+> > UNIX界隈では、.tar.gz が一般。
+> >
+> > tar は、tape archiver の略で、昔は磁気記録(テープ)が主だったからこ
+> > の名前があり、これ自体は圧縮操作はしない。寄せ集めてひとつのファイル
+> > にするだけ。
+> >
+> > 寄せ集めた ???.tar ファイルを gzip で圧縮して .tar.gz (.tgz)にする。
+> > これを解凍するには
+> >
+> > % tar xzvf ???.tar.gz        <- .tar.gz のとき
+> > % tar xvf ???.tar        <- .tar のとき
+> >
+> > 不明点は、聞くこと。unix の修得は、学問の修得とは違う。なので、まず、
+> > 聞くこと。
+> >
+
+
+
