@@ -131,7 +131,7 @@ ee /etc/ssh/sshd_config   #修改端口号
 
 
 pkg install dwm #  
-pkg install pkg  #可能会编译错误的时候用 缺少ft2build.h
+pkg install pkg/pkgconf  #可能会编译错误的时候用 缺少ft2build.h
 pkg install ncurses  #可能会编译错误的时候用 缺少tic
 ee ~/.xinitrc   +  壁纸程序  +  exec dwm 
 快捷键
