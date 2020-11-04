@@ -61,7 +61,7 @@ pkg install rm-leaf     #pkg-rmleaf
 pkg install feh           #wallpaper manager
 pkg install okular pcmanfm
 # feh --bg-fill ~/Pictures/wallpapers/mybackground.jpg
-
+pkg install xcompmgr    #for dwm alpha "xcompmgr&"
 ===multi-monitor===
 xrandr 
 xrandr --output DVI-0 --right-of VGA-0
