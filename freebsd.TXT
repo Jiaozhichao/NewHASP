@@ -142,9 +142,8 @@ ee /etc/ssh/sshd_config   #修改端口号
 pkg install dwm #  
 pkg install pkg/pkgconf  #可能会编译错误的时候用 缺少ft2build.h
 pkg install ncurses  #可能会编译错误的时候用 缺少tic
-ee ~/.xinitrc   +  壁纸程序  +  exec dwm 
 快捷键
-pacch -p < file.name
+#/dwm   patch -p < file.diff
 Shift + Mod1 + K. 打开窗口
 Shift + Mod1 + C. 关闭窗口
 Mod1 + 数字  切换workspace·
@@ -154,8 +153,6 @@ Mod1 + K       后一个选项框
 Mod1 + H       分界线前移
 Mod1 + L      分界线后移
 
-ee ~/.Xresources   #可以设置xorg的透明度
-xrdb -merge  ~/.Xresources  #执行文件
 
 pciom
 cd /usr/ports/x11/nvidia-driver   && make install      #nvidia driver安装
