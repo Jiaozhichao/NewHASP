@@ -72,7 +72,7 @@ pkg install obconf          #openbox config
 pkg install menumaker       #make openbox menu
 #mmaker openbox -f -t xterm #make menu
 pkg install tint2           #windows manager
-pkg install lxappearance    #theme change
+pkg install lxappearance    #theme change  #incon Breeze Dark
 #change config file in  #~/.config  #openbox & tint2
 #for ~/.xinitrc
 xcompmgr&
