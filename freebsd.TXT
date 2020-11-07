@@ -98,6 +98,7 @@ setenv LC_CTYPE zh_CN.UTF-8 #input language
 #setenv LC_ALL zh_CN.UTF-8
 setenv XMODIFIERS @im=SCIM  #for scim-input
 #for ~/.xinitrc
+setenv LANG de_DE.ISO8859-1& #envirement for X11 !!
 exec scim -d&
 --------------------------------------------------
 
