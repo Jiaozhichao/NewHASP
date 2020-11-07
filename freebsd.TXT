@@ -1,19 +1,19 @@
 ===System command=======================
-man [command]     #Command introduction                    
+man [command]                 #Command introduction                    
 ls                            #list directory contents.                      
-cd /root/                 #back to root directory
-cd ~                        # "~" same as  "/root"
-cd !$                       #把上个命令的参数作为cd参数使用
-shutdown -r now    #reboot now
-shutdown -p now   #shutdown and power off
-rm -f -r                   #delete directory
-mkdir -p                 #create new directory
+cd /root/                     #back to root directory
+cd ~                          # "~" same as  "/root"
+cd !$                         #把上个命令的参数作为cd参数使用
+shutdown -r now               #reboot now
+shutdown -p now               #shutdown and power off
+rm -f -r                      #delete directory
+mkdir -p                      #create new directory
 
 ===Internet setting===
-ee /etc/rc.conf  中加入             # wifi
-wlans_urtwn0="wlan0"            # "wlan0" is name of wireless network interface card
-ifconfig_wlan0="WPA DHCP"  #Dynamic Host Configuration Protocol 
-ifconfig_re0="DHCP"      #"re0" is name of network interface card
+ee /etc/rc.conf  中加入        # wifi
+wlans_urtwn0="wlan0"          # "wlan0" is name of wireless network interface card
+ifconfig_wlan0="WPA DHCP"     #Dynamic Host Configuration Protocol 
+ifconfig_re0="DHCP"           #"re0" is name of network interface card
 cat /etc/resolv.conf                 #固定你的 resolv.conf
 nameserver 8.8.8.8
 nameserver 8.8.4.4
@@ -22,58 +22,65 @@ nameserver 8.8.4.4
 ===system pkg===
 adduser 
 Login group is jru. Invite jru into other groups? : wheel     # ?
-Shell (sh csh tcsh zsh nologin) [sh]: csh                               # ?
-pkg install sudo                                         #install sudo by root
+Shell (sh csh tcsh zsh nologin) [sh]: csh                     # ?
+pkg install sudo                                          #install sudo by root
 visudo  + username ALL=(ALL) ALL                          #install sudo by root
 pkg install xorg                                          #install xorg
-pkg install blackbox 
-echo "exec blackbox" > ~/.xinitrc
-startx                                                    #start xorg
+
 
 ===file manager pkg===
 pkg install fd-3.01j  #fd
 pkg install ranger    #ranger
+pkg install pcmanfm
 
 ===USB memoary===
-mkdir /mnt/usb      #name of usb
-geom label status   #see status of disk
+mkdir /mnt/usb                             #name of usb
+geom label status                          #see status of disk
 gpart show
 sudo mount -t msdosfs /dev/da0p2 /mnt/usb  #da0p2 :name of usb device
 sudo umount /mnt/usb                       #unmount
 
 ===system message===
-pkg install screenFetch #  read system message
-pkg install neoFetch     #  read system message
-pkg install htop            #  read system stat
+pkg install screenFetch                    #  read system message
+pkg install neoFetch                       #  read system message
+pkg install htop                           #  read system stat
 
 ===Ports Collection===
 portsnap fetch      #download port
-portsnap extract   #解压
-portsnap update   #update
+portsnap extract    #解压
+portsnap update     #update
 
 ===tool pkg===
-pkg install r              #R language
+pkg install xarchiver     #
+pkg install r             #R language
 pkg install rstudio       #rstudio
-pkg install texstudio   # LaTeX
-pkg install git              #git
-pkg install okular       #pdf reader for KDE
-pkg install rm-leaf     #pkg-rmleaf
+pkg install texstudio     #LaTeX
+pkg install git           #git
+pkg install okular        #pdf reader for KDE
+pkg install rm-leaf       #pkg-rmleaf
 pkg install feh           #wallpaper manager
-openbox obconf menumaker xarchiver lxappearance
-pkg install okular pcmanfm
-# feh --bg-fill ~/Pictures/wallpapers/mybackground.jpg
-pkg install xcompmgr    #for dwm alpha "xcompmgr&"
+pkg install xcompmgr    
+
 ===multi-monitor===
 xrandr 
 xrandr --output DVI-0 --right-of VGA-0
 
+===windows manager -- openbox ===【sudo】
+pkg install xcompmgr        #for dwm alpha "xcompmgr&"
+pkg install openbox         #windows manager
+pkg install obconf          #openbox config
+pkg install menumaker       #make openbox menu
+#mmaker openbox -f -t xterm #make menu
+pkg install tint2           #windows manager
+pkg install lxappearance    #theme change
+#change config file in  #~/.config  #openbox & tint2
+#for ~/.xinitrc
+xcompmgr&
+tint2&
+exec openbox
 
-package search  #安装package management
-pkg install ruby26-gems-3.0.6 #rubygems gem工具
-pkg install wget  #是一个在网络上进行下载的简单而强大的自由软件
-
-
-===install Chinese & Japanese font===【sudo】
+===install Chinese & Japanese font & input===【sudo】
+#Font
 pkg install urwfonts      
 pkg install wqy-fonts     #  文泉驿Chinese font
 use xtem ：ee  /etc/X11/xorg.conf
@@ -81,23 +88,25 @@ Section "Files"
 FontPath   "/usr/local/share/fonts/urwfonts"
 FontPath “/usr/local/share/fonts/wqy”
 EndSection
+#Input
+pkg install zh-scim-fcitx   #IMEngine module for fcitx
+pkg install ja-scim-tables  #japanese input
+pkg install zh-scim-pinyin  #chinses input
+#for ~/.cshrc
+setenv LANG zh_CN.UTF-8     #workstation language /.utf-8 for Chinese, /.eucCN for English
+setenv LC_CTYPE zh_CN.UTF-8 #input language
+#setenv LC_ALL zh_CN.UTF-8
+setenv XMODIFIERS @im=SCIM  #for scim-input
+#for ~/.xinitrc
+exec scim -d&
+--------------------------------------------------
 
 
-安装sddm登录管理器
-       #pkg install sddm
-       #ee /etc/ttys
-       修改ttyv8:
-       ttyv8 "/usr/local/bin/sddm -nodaemon" xterm on secure 
-       如此即可实现kde-plasma5的开机启动！
 
 
-
-
-ifconfig_em0="DHCP" #配置网卡0(NAT)
-ifconfig_em1="DHCP" #配置网卡1(host only)
-sshd_enable="yes" #启用ssh服务
-可能需要重启，虚拟机的网络设定
-
+package search  #安装package management
+pkg install ruby26-gems-3.0.6 #rubygems gem工具
+pkg install wget  #是一个在网络上进行下载的简单而强大的自由软件
 
 
 pkg install gdm #安装
@@ -107,7 +116,6 @@ ee /etc/rc.conf      # xorg开机启动
 dbus_enable="YES"
 hald_enable="YES"
 polkit_enable="YES"
-
 
 #gnome开机启动
 gdm_enable="YES"
@@ -169,6 +177,4 @@ Section "InputDevice"
 EndSection
 #Horizontal scrolling is disabled by default. To enable it, add the following to /etc/sysctl.conf
 hw.psm.synaptics.vscroll_hor_area=1300
-
-
 
