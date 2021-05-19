@@ -1,0 +1,5 @@
+inputdata/typical.txt
+weathdat/56500110.has
+outputdata/0110
+program/wndwtabl.dat
+program/wcontabl.dat

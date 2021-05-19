@@ -1,0 +1,5 @@
+inputdata/typical.txt
+weathdat/osaka.has
+outputdata/osaka
+program/wndwtabl.dat
+program/wcontabl.dat
