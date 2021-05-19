@@ -1,2 +1,0 @@
-# NewHASP
-# Try a readme.
